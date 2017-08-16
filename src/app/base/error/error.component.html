@@ -1,0 +1,39 @@
+<div class="modal fade" bsModal #errorModal="bs-modal" [config]="{backdrop: 'static'}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+    aria-hidden="true">
+    <div *ngIf="co.err" class="modal-dialog">
+        <div class="modal-content modal-col-red">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Ops! An error ocurred!</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="errorModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+            </div>
+            <div class="modal-body">
+                {{co.err.msg}}
+            </div>
+            <div class="panel-group" id="accordion_4" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-danger">
+                    <div class="panel-heading" role="tab" id="headingOne_4">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion_4" href="#collapseOne_4" aria-expanded="false" aria-controls="collapseOne_4"
+                                class="collapsed"><i class="material-icons">info_outline</i>more info</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne_4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_4" aria-expanded="false"
+                        style="height: 0px;">
+                        <div class="panel-body">
+                            error code: <b>{{co.err.code}}</b>
+                            <br>
+                            service: <b>{{co.serviceId}}</b>
+                            <br>
+                            {{co.data}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button (click)="errorModal.hide()" type="button" class="btn btn-link waves-effect" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

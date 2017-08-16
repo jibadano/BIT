@@ -1,0 +1,32 @@
+
+<app-search #search></app-search>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar theme-teal">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <i class="material-icons" style="font-size: 45px;color: white;float: left;margin-right:15px">multiline_chart</i>
+                <a routerLink="" routerLinkActive="active" class="navbar-brand" style="font-family: 'Poppins', sans-serif;font-size:22px;font-weight:900" href="index.html">BADANO'S INTEGRATION TOOL </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- Call Search -->
+                    <!-- #END# Call Search -->
+                    <!-- Notifications -->
+                                         <li><a href="javascript:void(0);" (click)="search.open()" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
+
+                    <li class="dropdown">
+                        <a routerLink="/" routerLinkActive="active" href="javascript:void(0);" (click)="services.nav='explore'" class=" dropdown-toggle" data-toggle="dropdown" role="button">
+                            <i class="material-icons">home</i>
+                        </a>
+                    </li>
+                    <!-- #END# Tasks -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+
+    

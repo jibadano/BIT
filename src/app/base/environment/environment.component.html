@@ -1,0 +1,46 @@
+<div *ngIf="services.environments" class="row clearfix">
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div [class.bg-red]="!services.environments['DESA'].up" [class.bg-green]="services.environments['DESA'].up" class="info-box hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">code</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">{{services.environments['DESA'].updated | date:'shortDate'}}</div>
+                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20">{{services.environments['DESA'].name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div [class.bg-red]="!services.environments['TEST'].up" [class.bg-green]="services.environments['TEST'].up"  class="info-box  hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">bug_report</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">{{services.environments['TEST'].updated | date:'shortDate'}}</div>
+                            <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20">{{services.environments['TEST'].name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div [class.bg-red]="!services.environments['HOMO'].up" [class.bg-green]="services.environments['HOMO'].up"  class="info-box hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">verified_user</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">{{services.environments['HOMO'].updated | date:'shortDate'}}</div>
+                            <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20">{{services.environments['HOMO'].name}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                    <div [class.bg-red]="!services.environments['PROD'].up" [class.bg-green]="services.environments['PROD'].up"  class="info-box hover-expand-effect">
+                        <div class="icon">
+                            <i class="material-icons">build</i>
+                        </div>
+                        <div class="content">
+                            <div class="text">{{services.environments['PROD'].updated | date:'shortDate'}}</div>
+                            <div class="number count-to" data-from="0" data-to="1225" data-speed="1000" data-fresh-interval="20">{{services.environments['PROD'].name}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>

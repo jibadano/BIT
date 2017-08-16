@@ -1,0 +1,53 @@
+.image-container{
+        height: 300px;
+    overflow-y: hidden;
+}
+
+img{
+    width:100%;
+}
+
+input[type="text"]{
+height: 40px;
+    width: 100%;
+    padding: 10px;
+    border: 0;
+}
+.remove-button{
+    border: 0;
+    background: transparent;
+    position: absolute;
+    padding: 8px;
+    right: 0;
+}
+.question{
+    height: 82px;
+    text-align: center;
+    padding-top: 30px;
+
+}
+.form-group{
+    margin:0;
+}
+
+textarea{
+    padding-top:30px;
+    text-align:center;
+}
+
+.progress-bar{
+    padding:10px 0 10px 0;
+}
+
+.menu-buttons{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.menu-buttons button{
+    margin:0px 5px 15px 5px;
+}
+
+.menu-right-buttons{
+    float:right;
+}

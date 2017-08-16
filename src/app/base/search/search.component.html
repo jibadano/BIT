@@ -1,0 +1,19 @@
+<div [class.open]="isOpen" class="search-bar">
+    <div class="search-icon">
+        <i class="material-icons">search</i>
+    </div>
+    <input type="text" [(ngModel)]="searchTerm" (keyup)="search($event,searchTerm)"  placeholder="START TYPING...">
+    <div (click)="close()" class="close-search">
+        <i class="material-icons">close</i>
+    </div>
+    <ul *ngIf="isOpen" class="list-group">
+        <li *ngFor="let result of searchResults" class="list-group-item">
+            <div class="result">
+                    <i *ngIf="result.componentType=='lo'" class="material-icons">dashboard</i>
+                    <i *ngIf="result.componentType=='wf'" class="material-icons">device_hub</i>
+                {{result.nombre_concatenado}}
+                <span class="badge bg-pink">{{result.version}}</span>
+            </div>
+        </li>
+    </ul>
+</div>

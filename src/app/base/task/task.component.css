@@ -1,0 +1,32 @@
+.table-responsive{
+    padding:0;
+}
+
+.material-icons{
+    vertical-align:middle;
+    padding-right:10px;
+}
+
+.search-results{
+    z-index:10;
+    position:absolute;
+}
+
+.search-item{
+   cursor:pointer;
+}
+
+td .input-group{
+    margin:0;
+}
+
+td{
+    vertical-align:middle!important;
+}
+
+.row-button{
+    cursor:pointer;
+    float: right;
+    padding: 0;
+    font-size: 18px;
+}

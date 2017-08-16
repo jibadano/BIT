@@ -1,0 +1,13 @@
+.panel-group{
+    margin-bottom:0;
+}
+
+.panel-title a{
+    text-align: left;
+    font-weight: 100;
+    font-size: 15px;
+}
+
+.modal-body{
+    margin-bottom:20px;
+}
