@@ -65,9 +65,8 @@ var Environment = mongoose.model('Environment', environmentSchema);
 Environment.find({},function(err,es){
 	if(!err && es)
 		es.forEach(function(e) {
-			var sql = require("mssql");
-			//sql.connect(e.config);
-			var environment = {name:e.name,url:e.url,sql:sql,updated:new Date()};
+			
+			var environment = {name:e.name,url:e.url,config:e.config,updated:new Date()};
 			environments[e.name] = environment;
 		});
 });

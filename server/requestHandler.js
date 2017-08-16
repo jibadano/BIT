@@ -9,7 +9,8 @@ var db = require('./database');
 var eh = require('./errorHandler');
 var atob = require('atob');
 var mail = require('./mail');
-var request = require('ajax-request');
+var ajax = require('ajax-request');
+var sql = {DESA:require("mssql"),TEST:require("mssql"),HOMO:require("mssql"),PROD:require("mssql"),};
 
 /********************************************************************
 ************************** Config & Init ****************************
@@ -20,7 +21,7 @@ var request = require('ajax-request');
 /********************************************************************
 ***************************** Services ******************************
 *********************************************************************/
-
+var running = false;
 var services = {
 
 //get Tasks
@@ -76,22 +77,39 @@ cmmSearch : function(se, then){
 
 
 search : function(se, then){
+	if(!running){
+		running = true;
+		searchLayouts('DESA',se.data.searchTerm,function(err,desa){
+			searchLayouts('TEST',se.data.searchTerm,function(err,test){
+				searchLayouts('HOMO',se.data.searchTerm,function(err,homo){
+					searchLayouts('PROD',se.data.searchTerm,function(err,prod){
+						running = false;
+						return then(null,{desa:desa,test:test,homo:homo,prod:prod});
+					});
+				});
+			});
+		});
+	}
+
+/*
 	services.searchLayouts(se,function(errLayouts,layouts){
 		services.searchWorkflows(se,function(errWorkflows,workflows){
 			layouts = layouts.concat(workflows);	
 			return then(null,layouts);
 		});	
-	});
+	});*/
 },
 
 searchLayouts : function(se, then){
 	
 	if(se.data.searchTarget.indexOf('layouts') >= 0){
-		if(db.layouts)
-			db.layouts.resultset.forEach(function(layout){
-				layout.componentType='lo';
-			});
-		return then(null,db.layouts.resultset);
+		db.environments.DESA.sql.close();
+		var request = new db.environments.DESA.sql.Request();
+ 		request.query('select top 10 nombre_concatenado,version from dbo.layout', function (err, recordset) {
+			console.log(recordset);
+			if (err) console.log(err)
+				return then(null,recordset);
+		});
 	} 
 	else
 		return then(null,[]);
@@ -127,7 +145,23 @@ getEnvironments : function (se, then){
 
 
 
+function searchLayouts(env,searchTerm, then){
+	sql[env].close();
+	sql[env].connect(db.environments[env].config, function (err) {
+		if (err) console.log(err);
 
+		var request = new sql[env].Request();
+		var query = 'select top 10 nombre_concatenado, version from dbo.layout where nombre_concatenado like \'%' + searchTerm + '%\'';
+		console.log(query);
+		request.query(query, function (err, recordset) {
+			console.log(recordset);
+			if(recordset)
+				return then(err,recordset.recordset);
+			else
+				return then(err,[]);
+		});
+	});
+}
 
 
 
@@ -191,7 +225,7 @@ var getError = function(err){
 }
 
 var testUrl = function(url, then){
-	request({
+	ajax({
 		url: url,
 		method: 'GET'
 		}, then

@@ -9,7 +9,7 @@ import { AppService}       from '../../app.service';
 export class SearchComponent{
 
  isOpen:boolean = false;
-    searchResults : any[] = [];
+    searchResults : any = {desa:[]};
     searchTerm: String = "";
     selectedResults : any[];
     @Input('selected') set selected(selected:any[]){
@@ -20,6 +20,22 @@ export class SearchComponent{
     constructor( private services: AppService) {}
 
     @Output() result: EventEmitter<any> = new EventEmitter();
+
+    getVersion(name,env){
+      if(this.searchResults.test && env == 'TEST'){
+        let comp = this.searchResults.test.find((c)=>{return c.name == name});
+        if (comp) return comp.version;
+      }
+      if(this.searchResults.homo && env == 'HOMO'){
+        let comp = this.searchResults.homo.find((c)=>{return c.name == name});
+        if (comp) return comp.version;
+      }
+      if(this.searchResults.prod && env == 'PROD'){
+        let comp = this.searchResults.prod.find((c)=>{return c.name == name});
+        if (comp) return comp.version;
+      }
+        
+    }
 
     open(){
       this.isOpen = true;
