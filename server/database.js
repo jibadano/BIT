@@ -9,40 +9,46 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var environments = {};
-mongoose.connect('mongodb://localhost/db');
+
+mongoose.connect('mongodb://localhost/db',{ useMongoClient: true });
 
 /*	Schemas	*/
-var taskSchema = new mongoose.Schema({
+var issueSchema = new mongoose.Schema({
 	title: String,
-	issue:Boolean,
 	assignee:String,
-	reporter:String,
-	branch:String,
-	comment:String,
 	resolution: String,
-	ticket:String,
 	date: { type: Date, default: Date.now },
-	environment: {name:String},
+	ocurrences:[{
+		date:Date,
+		reporter:String,
+		branch:String,
+		time:String,
+		user:String,
+		customer:String,
+		desc:String
+	}],
+	ticket:String,
+	task:{ type: Boolean, default: false },
+	environments: [String],
 	view:{
 		rules:Boolean,
 		styles:Boolean,
 		masks:Boolean,
 		components:[{componentType:String,nombre_concatenado:String,version:Number}]
-		},
-	cmm:{
-		services:[{name:String,version:Number}],demands:[String]
 	},
-	teradata:{
-		storedProcedures:[{name:String,version:Number}]
-	},
-	bpm:{
-		services:[{name:String,version:Number}]
-	},
-	core:{
-		services:[{name:String,version:Number}]
-	}
+	cmm:[{ type: ObjectId, ref: 'CMM'}],
 });
 
+var cmmSchema = new mongoose.Schema({
+	name: String,
+	canonicals:[],
+	core:String
+});
+
+var coreSchema = new mongoose.Schema({
+	name: String,
+	origin: String,
+});
 
 var environmentSchema = new mongoose.Schema({
 	name: String,
@@ -56,22 +62,21 @@ var environmentSchema = new mongoose.Schema({
 	}
 });
 
-
 /*	Models	*/
-var Task = mongoose.model('Task', taskSchema);
+exports.Issue = mongoose.model('Issue', issueSchema);
+exports.CMM = mongoose.model('CMM', cmmSchema);
+exports.Core = mongoose.model('Core', coreSchema);
 var Environment = mongoose.model('Environment', environmentSchema);
 
-
-Environment.find({},function(err,es){
-	if(!err && es)
-		es.forEach(function(e) {
-			
-			var environment = {name:e.name,url:e.url,config:e.config,updated:new Date()};
-			environments[e.name] = environment;
-		});
-});
-
-/* Methods */
+exports.init = function(){
+	Environment.find({},function(err,es){
+		if(!err && es)
+			es.forEach(function(e) {
+				var environment = {name:e.name,url:e.url,config:e.config,updated:new Date()};
+				environments[e.name] = environment;
+			});
+	});
+}
 
 exports.layouts = {resultset:[
 		{nombre_concatenado:'massiveSelectCustomeOperationConsolidadaFramework', version:'22'},
@@ -105,5 +110,4 @@ exports.cmm = {resultset:[
 
 /* Exports */
 
-exports.Task = Task;
 exports.environments = environments;

@@ -4,205 +4,63 @@
  *	jibadano@gmail.com
  *	Date: 2015-11-24
  */
-
-var db = require('./database');
+var config = require('./config');
 var eh = require('./errorHandler');
-var atob = require('atob');
-var mail = require('./mail');
-var ajax = require('ajax-request');
-var sql = {DESA:require("mssql"),TEST:require("mssql"),HOMO:require("mssql"),PROD:require("mssql"),};
+var fs = require('fs');
 
 /********************************************************************
 ************************** Config & Init ****************************
 *********************************************************************/
+var services = {};
+exports.init = function(req,res){
+	try{
+		importService(config.servicesDir);
+	}
+	catch(e){console.log(e);}
+}
 
-
-
-/********************************************************************
-***************************** Services ******************************
-*********************************************************************/
-var running = false;
-var services = {
-
-//get Tasks
-getTasks : function (se, then){
-	db.Task.find({issue:null}).
-	sort({ date: -1 }).
-	exec(then);
-},
-
-//get Tasks
-getIssues : function (se, then){
-	db.Task.find({issue:true}).
-	sort({ date: -1 }).
-	exec(then);
-},
-
-//get Task
-getTask : function (se, then){
-	db.Task.findOne({_id:se.data.task._id}).
-	exec(then);
-},
-
-
-// 3. ABM Task
-
-//ADD Task
-addTask : function (se, then){
-	new db.Task(se.data.task).save(then);
-},
-
-//DEL TASK
-delTask : function (se, then){
-	db.Task.findOneAndRemove({_id:se.data.task._id},then);
-},
-
-//UPD TASK
-updTask : function (se, then){
-	db.Task.findOne(se.data.task, function(err,task){
-		if(err)
-			return then(err, null);
-
-		if(!task)
-			return then(eh.USER.NOT_FND, null);
-		
-		task = se.data.task;
-		task.save(then);
-	});
-},
-
-cmmSearch : function(se, then){
-	return then(null,db.cmm.resultset);
-},
-
-
-search : function(se, then){
-	if(!running){
-		running = true;
-		searchLayouts('DESA',se.data.searchTerm,function(err,desa){
-			searchLayouts('TEST',se.data.searchTerm,function(err,test){
-				searchLayouts('HOMO',se.data.searchTerm,function(err,homo){
-					searchLayouts('PROD',se.data.searchTerm,function(err,prod){
-						running = false;
-						return then(null,{desa:desa,test:test,homo:homo,prod:prod});
-					});
-				});
-			});
+function importService(file){
+	if(fs.statSync(file).isDirectory()){
+		fs.readdirSync(file).forEach(newFile => {
+			importService(file + newFile);
 		});
 	}
-
-/*
-	services.searchLayouts(se,function(errLayouts,layouts){
-		services.searchWorkflows(se,function(errWorkflows,workflows){
-			layouts = layouts.concat(workflows);	
-			return then(null,layouts);
-		});	
-	});*/
-},
-
-searchLayouts : function(se, then){
-	
-	if(se.data.searchTarget.indexOf('layouts') >= 0){
-		db.environments.DESA.sql.close();
-		var request = new db.environments.DESA.sql.Request();
- 		request.query('select top 10 nombre_concatenado,version from dbo.layout', function (err, recordset) {
-			console.log(recordset);
-			if (err) console.log(err)
-				return then(null,recordset);
+	else{
+		let module = require(getModule(file));
+		Object.keys(module).forEach(serviceId=>{
+			services[serviceId] = module[serviceId];
 		});
-	} 
-	else
-		return then(null,[]);
-},
-searchWorkflows : function(se, then){
+	}
+}
+
+function getModule(filePath){
+	var module = "."
+	var splittedFilePath = filePath.split("/");
+	for(var i=2; i<splittedFilePath.length; i++)
+		module += "/" + splittedFilePath[i];
 	
-	if(se.data.searchTarget.indexOf('workflows') >= 0){
-		if(db.workflows)
-			db.workflows.resultset.forEach(function(workflow){
-				workflow.componentType='wf';
-			});
-		return then(null,db.workflows.resultset);
-	} 
-	else
-		return then(null,[]);
-},
-
-testEnvironment : function(se, then){
-	testUrl(se.data.url,function(err){
-		then(err,null);
-	});
-},
-
-getEnvironments : function (se, then){
-	then(null,db.environments);
-},
-
-//SERVICES END
+	return module;
 }
 
 
-
-
-
-
-function searchLayouts(env,searchTerm, then){
-	sql[env].close();
-	sql[env].connect(db.environments[env].config, function (err) {
-		if (err) console.log(err);
-
-		var request = new sql[env].Request();
-		var query = 'select top 10 nombre_concatenado, version from dbo.layout where nombre_concatenado like \'%' + searchTerm + '%\'';
-		console.log(query);
-		request.query(query, function (err, recordset) {
-			console.log(recordset);
-			if(recordset)
-				return then(err,recordset.recordset);
-			else
-				return then(err,[]);
-		});
-	});
-}
-
-
-
-
-
-
-
-
-
-
-/********************************************************************
-************************** Global Services **************************
-*********************************************************************/
-
-/*
-*								EXEC SERVICE
-*/
-function exec(req, res) {
+exports.exec = function(req, res) {
 	getData(req, function(serviceExecution){
 		try{
-			services[serviceExecution.serviceId](serviceExecution, function(err, data){
+			services[serviceExecution.serviceId](serviceExecution.data, function(err, data){
 				serviceExecution.data = data;
 				serviceExecution.err = getError(err);
 
-				//Log RESPONSE
 				res.end(JSON.stringify(serviceExecution));
 			});
 		}
 		catch(e){
 			console.log(e);
-			delete serviceExecution.data;
+			serviceExecution.data = null;
 			serviceExecution.err = eh.SERVICE_EXECUTION(e, serviceExecution.serviceId);
 			res.end(JSON.stringify(serviceExecution));
 		}
 	});
 }
-
-
-/********************************************************************
-****************************** Private ******************************
-*********************************************************************/
 
 var getData = function(req, then){
 	var data = '';
@@ -223,19 +81,3 @@ var getError = function(err){
 	else
 		return (err.code)? err : eh.DATABASE(err);
 }
-
-var testUrl = function(url, then){
-	ajax({
-		url: url,
-		method: 'GET'
-		}, then
-	);
-}
-
-/********************************************************************
-****************************** Exports ******************************
-*********************************************************************/
-
-exports.exec = exec;
-
-

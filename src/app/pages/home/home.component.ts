@@ -13,7 +13,9 @@ export class HomeComponent implements OnInit {
 
   nav: string = 'issues';
   constructor( private services: AppService) {}
-
+  ngAfterViewInit(){
+    
+  }
   ngOnInit(){
     this.services.loadScript("admin.js");
     this.services.loadScript("demo.js");
