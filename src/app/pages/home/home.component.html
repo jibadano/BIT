@@ -17,7 +17,7 @@
           
             <table class="table table-hover">
                 <tbody>
-                    <tr style="cursor:pointer" [routerLink]="['/task', task._id]" *ngFor="let task of tasks">
+                    <tr style="cursor:pointer" [routerLink]="['/issue', task._id]" *ngFor="let task of tasks">
                       <td>{{task.title}}</td>
                         <td>
                           <div style="float:right">
@@ -39,7 +39,7 @@
           </div>
             <table class="table table-hover">
                 <tbody>
-                    <tr style="cursor:pointer" [routerLink]="['/task', issue._id]" *ngFor="let issue of issues">
+                    <tr style="cursor:pointer" [routerLink]="['/issue', issue._id]" *ngFor="let issue of issues">
                       <td>{{issue.title}}</td>
                         <td>
                          </td>
