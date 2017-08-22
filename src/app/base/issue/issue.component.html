@@ -40,7 +40,67 @@
               Ocurrencias <small></small>
             </h2>
             <div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
-              <div class="panel panel-col-indigo">
+               <div *ngFor="let ocurrence of issue.ocurrences" class="panel panel-col-indigo">
+                <div class="panel-heading" role="tab" id="headingOne_1">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseOne_1" aria-expanded="false" aria-controls="collapseOne_1"
+                      class="collapsed">
+                        {{ocurrence.date | date:'shortDate'}} - {{ocurrence.branch}} - {{ocurrence.reporter}}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_1" aria-expanded="false"
+                  style="height: 0px;">
+                  <div class="panel-body">
+                    <div class="row clearfix">
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input disabled type="text" id="email_address" [(ngModel)]="ocurrence.reporter" class="form-control" placeholder="Informador">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input disabled type="text" id="email_address" [(ngModel)]="ocurrence.branch" class="form-control" placeholder="Sucursal">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input disabled type="text" id="email_address" [(ngModel)]="ocurrence.user" class="form-control" placeholder="Usuario">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input disabled type="text" id="email_address" [(ngModel)]="ocurrence.customer" class="form-control" placeholder="Cliente">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input disabled type="date" id="email_address" [(ngModel)]="ocurrence.date" class="form-control" placeholder="Fecha">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input disabled type="text" id="email_address" [(ngModel)]="ocurrence.time" class="form-control" placeholder="Hora">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row clearfix">
+                      <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
+                        <textarea disabled [(ngModel)]="ocurrence.desc" style="width:100%;height:100px" id="tinymce">
+                          </textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+               <div class="panel panel-col-indigo">
                 <div class="panel-heading" role="tab" id="headingOne_1">
                   <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseOne_1" aria-expanded="false" aria-controls="collapseOne_1"
@@ -56,67 +116,47 @@
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
                         <div class="form-group">
                           <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Informador">
+                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.reporter" class="form-control" placeholder="Informador">
                           </div>
                         </div>
                         <div class="form-group">
                           <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Sucursal">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Usuario">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Cliente">
+                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.branch" class="form-control" placeholder="Sucursal">
                           </div>
                         </div>
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
                         <div class="form-group">
                           <div class="form-line">
-                            <input [disabled]="issue._id" type="date" id="email_address" [(ngModel)]="issue.date" class="form-control" placeholder="Fecha">
+                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.user" class="form-control" placeholder="Usuario">
                           </div>
                         </div>
                         <div class="form-group">
                           <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Hora">
+                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.customer" class="form-control" placeholder="Cliente">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input  type="date" id="email_address" [(ngModel)]="newOcurrence.date" class="form-control" placeholder="Fecha">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.time" class="form-control" placeholder="Hora">
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="row clearfix">
                       <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
-                        <textarea [disabled]="issue._id" [(ngModel)]="issue.comment" style="width:100%;height:100px" id="tinymce">
+                        <textarea  [(ngModel)]="newOcurrence.desc" style="width:100%;height:100px" id="tinymce">
                           </textarea>
                       </div>
+                      <a href="javascript:void(0);" (click)="issue.ocurrences.push(newOcurrence);newOcurrence={}" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">navigate_next</i></a>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="panel panel-col-indigo">
-                <div class="panel-heading" role="tab" id="headingTwo_1">
-                  <h4 class="panel-title">
-                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseTwo_1" aria-expanded="false"
-                      aria-controls="collapseTwo_1">
-                              Collapsible Group Item #2
-                          </a>
-                  </h4>
-                </div>
-                <div id="collapseTwo_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo_1" aria-expanded="false"
-                  style="height: 0px;">
-                  <div class="panel-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
-                    non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                    tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil
-                    anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
-                    excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
-                    you probably haven't heard of them accusamus labore sustainable VHS.
                   </div>
                 </div>
               </div>
@@ -124,14 +164,14 @@
           </div>
         </div>
 
-        <div class="row clearfix">
+        <div *ngIf="issue.task" class="row clearfix">
           <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
             <h2>
               Componentes afectados <small></small>
             </h2>
 
             <div class="row clearfix">
-              <div class="col-sm-6">
+              <div class="col-sm-4">
                 <div *ngIf="!issue._id" class="form-group">
                   <div class="form-line">
                     <input type="text" [(ngModel)]="viewSearchTerm" (keyup)="search($event,viewSearchTerm)" class="form-control" placeholder="Buscar componentes">
@@ -142,17 +182,53 @@
                       class="material-icons">dashboard</i>{{result.nombre_concatenado}} <span class="badge bg-pink">{{result.version}}</span></li>
                 </ul>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-1">
                 <input type="checkbox" [disabled]="issue._id != undefined" [(ngModel)]="issue.view.rules" id="rules">
                 <label for="rules">Reglas</label>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-1">
                 <input type="checkbox" [disabled]="issue._id" [(ngModel)]="issue.view.styles" id="styles">
                 <label for="styles">Estilos</label>
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-1">
                 <input type="checkbox" [disabled]="issue._id" [(ngModel)]="issue.view.masks" id="masks">
                 <label for="masks">Máscaras</label>
+              </div>
+            </div>
+
+            <div class="row clearfix">
+              <div class="col-sm-4">
+                 <div class="body table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor="let component of issue.view.components">
+                          <td class="component"><i class="material-icons">compare_arrows</i>{{component.nombre_concatenado}} <span class="badge bg-pink">{{component.version}}</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="body table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor="let service of issue.cmm.services">
+                          <td class="component"><i class="material-icons">compare_arrows</i>{{service.name}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="body table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr *ngFor="let coreService of coreServices">
+                          <td class="component"><i class="material-icons">compare_arrows</i>{{coreService.name}} <span class="badge bg-pink">{{coreService.origin}}</span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
               </div>
             </div>
 

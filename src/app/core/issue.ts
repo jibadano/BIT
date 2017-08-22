@@ -15,7 +15,7 @@ export class Issue {
 	comment:string;
 	resolution: string;
 	ticket:string;
-
+	ocurrences:any[]=[];
 	date: Date;
 	environment:Environment = new Environment();
 	view:View = new View();

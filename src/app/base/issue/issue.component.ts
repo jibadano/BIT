@@ -20,6 +20,8 @@ export class IssueComponent implements OnInit {
     newCoreService = "";
     issue = new Issue();
 
+    newOcurrence = {};
+    coreServices = [];
     constructor( private services: AppService, private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -125,7 +127,14 @@ select(result){
     this.viewSearchResults = [];
     let component = this.issue.view.components.find(component=> {return component.nombre_concatenado == result.nombre_concatenado && component.componentType==result.componentType});
     if(!component){
-      this.issue.view.components.push(Object.assign({},result));
+      this.services.exec('cmmSearch',{}).then((co)=>{
+          this.issue.view.components.push(Object.assign({},result));
+          this.issue.cmm.services = this.issue.cmm.services.concat(co.data);
+          for(let service of co.data){
+            if(service.core)
+              this.coreServices.push(service.core);
+          }
+      })
     }
     else{
       let index = this.issue.view.components.indexOf(component)
