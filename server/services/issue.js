@@ -1,7 +1,7 @@
 const Issue = require('../database').Issue;
 
 exports.addIssue = function(data, then){
-	new Issue(data.task).save(then);
+	new Issue(data.issue).save(then);
 }
 
 exports.delIssue = function(data, then){
