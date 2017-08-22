@@ -4,7 +4,7 @@ import { Service }       from './service';
 
 
 
-export class Task {
+export class Issue {
 	_id:number;
 	title:string;
 

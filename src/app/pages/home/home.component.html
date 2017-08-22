@@ -1,21 +1,20 @@
 <div class="row clearfix">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="btn-group btn-group-justified btn-actions" role="group" >
-      <a href="javascript:void(0);" (click)="services.nav='tasks'" class="btn btn-lg bg-indigo waves-effect" role="button">TAREAS</a>
-      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn btn-lg bg-indigo waves-effect" role="button">INCIDENCIAS</a>
+      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">INCIDENTES</a>
+      <a href="javascript:void(0);" (click)="services.nav='tasks'" class="btn bg-indigo waves-effect" role="button">TAREAS</a>
+      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">PASAJES</a>
+      <a href="javascript:void(0);" routerLink="/issue" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
+      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">navigate_next</i></a>
     </div>
+
+
     <div *ngIf="services.nav=='tasks'" class="card">
         <div class="body table-responsive">
-          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <h2>Tareas <span class="label bg-indigo">{{tasks.length}}</span></h2>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div class="btn-group no-shadow" style="float:right" role="group" aria-label="First group">
-                <button type="button" routerLink="/task" class="btn btn-default waves-effect"><i class="material-icons">add</i></button>
-                <button type="button" class="btn btn-default waves-effect"><i class="material-icons">navigate_next</i></button>
-                <button type="button" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
-            </div>
-          </div>
+          
             <table class="table table-hover">
                 <tbody>
                     <tr style="cursor:pointer" [routerLink]="['/task', task._id]" *ngFor="let task of tasks">
@@ -37,13 +36,6 @@
         <div class="body table-responsive">
           <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <h2>Incidentes <span class="label bg-indigo">{{issues.length}}</span></h2>
-          </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div class="btn-group no-shadow" style="float:right" role="group" aria-label="First group">
-                <button type="button" routerLink="/task/issue" class="btn btn-default waves-effect"><i class="material-icons">add</i></button>
-                <button type="button" class="btn btn-default waves-effect"><i class="material-icons">navigate_next</i></button>
-                <button type="button" class="btn btn-default waves-effect"><i class="material-icons">delete</i></button>
-            </div>
           </div>
             <table class="table table-hover">
                 <tbody>

@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-.no-shadow{
-    box-shadow: none;
+
+.btn-group-justified .btn{
+    width:auto;
+}
+
+.btn-icon{
+    width:44px!important;
+}
+
+section.content{
+    margin:100px 15% 0 15%;
 }

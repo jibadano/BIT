@@ -1,7 +1,7 @@
 const db = require('../database');
 
 exports.search = function(data, then){
-	return then(null,db.layouts);
+	return then(null,db.layouts.resultset);
 
 }
 
@@ -33,7 +33,9 @@ exports.searchWorkflows = function(data, then){
 }
 
 exports.cmmSearch = function(data, then){
-	return then(null,db.cmm.resultset);
+	db.CMM.find({}).populate('core canonicals').exec((err,cmms)=>{
+		return then(null,cmms);
+	});
 }
 
 

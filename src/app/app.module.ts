@@ -15,11 +15,11 @@ import { RouterModule, Routes }   from '@angular/router';
 import { ErrorComponent } from './base/error/error.component';
 import {AppService} from './app.service';
 import { EnvironmentComponent } from './base/environment/environment.component';
-import { TaskComponent } from './base/task/task.component';
+import { IssueComponent } from './base/issue/issue.component';
 const routes: Routes = [
   { path: '', component: HomeComponent},
-  { path: 'task/:id',  component: TaskComponent },
-  { path: 'task',  component: TaskComponent },
+  { path: 'issue/:id',  component: IssueComponent },
+  { path: 'issue',  component: IssueComponent },
   { path: '**',  component: NotFoundComponent }
 ];
 
@@ -32,7 +32,7 @@ const routes: Routes = [
     NotFoundComponent,
     ErrorComponent,
     EnvironmentComponent,
-    TaskComponent
+    IssueComponent
   
   ],
   imports: [

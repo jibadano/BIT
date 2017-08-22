@@ -41,8 +41,8 @@ var issueSchema = new mongoose.Schema({
 
 var cmmSchema = new mongoose.Schema({
 	name: String,
-	canonicals:[],
-	core:String
+	core: { type: ObjectId, ref: 'Core'},
+	canonicals: [{ type: ObjectId, ref: 'CMM'}]
 });
 
 var coreSchema = new mongoose.Schema({
@@ -64,8 +64,10 @@ var environmentSchema = new mongoose.Schema({
 
 /*	Models	*/
 exports.Issue = mongoose.model('Issue', issueSchema);
-exports.CMM = mongoose.model('CMM', cmmSchema);
-exports.Core = mongoose.model('Core', coreSchema);
+var CMM = mongoose.model('CMM', cmmSchema);
+exports.CMM = CMM;
+var Core = mongoose.model('Core', coreSchema);
+exports.Core = Core;
 var Environment = mongoose.model('Environment', environmentSchema);
 
 exports.init = function(){
@@ -76,6 +78,7 @@ exports.init = function(){
 				environments[e.name] = environment;
 			});
 	});
+
 }
 
 exports.layouts = {resultset:[

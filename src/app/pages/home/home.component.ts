@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService }        from '../../app.service';
-import { Task }        from '../../core/task';
+import { Issue }        from '../../core/issue';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +8,8 @@ import { Task }        from '../../core/task';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  tasks : Task[] =[];
-    issues : Task[] =[];
+  tasks : Issue[] =[];
+    issues : Issue[] =[];
 
   nav: string = 'issues';
   constructor( private services: AppService) {}

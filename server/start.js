@@ -22,7 +22,7 @@ app.set('trust proxy', 1) // trust first proxy
 
 //Router
 app.get('*', function(req, res) {
-    res.sendFile('./dist/index.html', { root: __dirname });
+    res.sendfile('./dist/index.html');
 });
 app.post('/services', requestHandler.exec);
 

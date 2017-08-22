@@ -1,0 +1,230 @@
+<div class="row clearfix">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="btn-group btn-group-justified btn-actions" role="group">
+      <a href="javascript:void(0);" routerLink="/" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">navigate_before</i></a>
+      <a href="javascript:void(0);" routerLink="/" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">INCIDENTES</a>
+      <a href="javascript:void(0);" routerLink="/" (click)="services.nav='tasks'" class="btn bg-indigo waves-effect" role="button">TAREAS</a>
+      <a href="javascript:void(0);" routerLink="/" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">PASAJES</a>
+      <a href="javascript:void(0);" *ngIf="issue._id" (click)="remove()" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">delete</i></a>
+      <a href="javascript:void(0);" *ngIf="!issue._id" (click)="reset()" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">replay</i></a>
+      <a href="javascript:void(0);" *ngIf="issue._id" routerLink="/issue" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
+      <a href="javascript:void(0);" *ngIf="!issue._id" (click)="done()" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">done</i></a>
+    </div>
+    <div class="card">
+      <div class="body">
+        <div class="row clearfix">
+          <div class="col-sm-10">
+            <div class="form-group form-group-lg">
+              <div class="form-line">
+                <input [disabled]="issue._id != undefined" type="text" [(ngModel)]="issue.title" class="form-control" placeholder="Título">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div *ngIf="!issue.issue" class="form-group form-group-lg">
+              <div class="form-line">
+                <select [disabled]="issue._id != undefined" [(ngModel)]="issue.environment.name" *ngIf="services.environments" class="form-control">
+                    <option value="DESA">{{services.environments['DESA'].name}}</option>
+                    <option value="TEST">{{services.environments['TEST'].name}}</option>
+                    <option value="HOMO">{{services.environments['HOMO'].name}}</option>
+                    <option value="PROD">{{services.environments['PROD'].name}}</option>
+                  </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row clearfix">
+          <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
+            <h2>
+              Ocurrencias <small></small>
+            </h2>
+            <div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-col-indigo">
+                <div class="panel-heading" role="tab" id="headingOne_1">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseOne_1" aria-expanded="false" aria-controls="collapseOne_1"
+                      class="collapsed">
+                        Nueva ocurrencia
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_1" aria-expanded="false"
+                  style="height: 0px;">
+                  <div class="panel-body">
+                    <div class="row clearfix">
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Informador">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Sucursal">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Usuario">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Cliente">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input [disabled]="issue._id" type="date" id="email_address" [(ngModel)]="issue.date" class="form-control" placeholder="Fecha">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="issue.assignee" class="form-control" placeholder="Hora">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row clearfix">
+                      <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
+                        <textarea [disabled]="issue._id" [(ngModel)]="issue.comment" style="width:100%;height:100px" id="tinymce">
+                          </textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-col-indigo">
+                <div class="panel-heading" role="tab" id="headingTwo_1">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseTwo_1" aria-expanded="false"
+                      aria-controls="collapseTwo_1">
+                              Collapsible Group Item #2
+                          </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo_1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo_1" aria-expanded="false"
+                  style="height: 0px;">
+                  <div class="panel-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute,
+                    non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+                    tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil
+                    anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+                    excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+                    you probably haven't heard of them accusamus labore sustainable VHS.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row clearfix">
+          <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
+            <h2>
+              Componentes afectados <small></small>
+            </h2>
+
+            <div class="row clearfix">
+              <div class="col-sm-6">
+                <div *ngIf="!issue._id" class="form-group">
+                  <div class="form-line">
+                    <input type="text" [(ngModel)]="viewSearchTerm" (keyup)="search($event,viewSearchTerm)" class="form-control" placeholder="Buscar componentes">
+                  </div>
+                </div>
+                <ul class="list-group search-results">
+                  <li (click)="select(result);" *ngFor="let result of viewSearchResults" class="search-item list-group-item"><i *ngIf="result.componentType=='wf'" class="material-icons">device_hub</i><i *ngIf="result.componentType=='lo'"
+                      class="material-icons">dashboard</i>{{result.nombre_concatenado}} <span class="badge bg-pink">{{result.version}}</span></li>
+                </ul>
+              </div>
+              <div class="col-sm-2">
+                <input type="checkbox" [disabled]="issue._id != undefined" [(ngModel)]="issue.view.rules" id="rules">
+                <label for="rules">Reglas</label>
+              </div>
+              <div class="col-sm-2">
+                <input type="checkbox" [disabled]="issue._id" [(ngModel)]="issue.view.styles" id="styles">
+                <label for="styles">Estilos</label>
+              </div>
+              <div class="col-sm-2">
+                <input type="checkbox" [disabled]="issue._id" [(ngModel)]="issue.view.masks" id="masks">
+                <label for="masks">Máscaras</label>
+              </div>
+            </div>
+
+            <div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
+              <div *ngFor="let component of issue.view.components" class="panel panel-col-indigo">
+                <div class="panel-heading" role="tab" id="headingOne_1">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#{{component.nombre_concatenado}}" aria-expanded="false"
+                      aria-controls="collapseOne_1" class="collapsed">
+                        {{component.nombre_concatenado}}
+                    </a>
+                  </h4>
+                </div>
+                <div id="{{component.nombre_concatenado}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_1"
+                  aria-expanded="false" style="height: 0px;">
+                  <div class="panel-body">
+                    <div *ngIf="!issue._id" class="row clearfix">
+                      <div class="col-sm-8">
+                        <div class="form-group">
+                          <div class="form-line">
+                            <input type="text" [(ngModel)]="cmmSearchTerm" (keyup)="cmmSearch($event,cmmSearchTerm)" class="form-control" placeholder="Buscar servicio">
+                          </div>
+                        </div>
+                        <ul class="list-group search-results">
+                          <li (click)="cmmSelect(result);" *ngFor="let result of cmmSearchResults" class="search-item list-group-item"><i class="material-icons">compare_arrows</i>{{result.name}} <span class="badge bg-pink">{{result.version}}</span></li>
+                        </ul>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="input-group">
+                          <div class="form-line">
+                            <input type="text" [(ngModel)]="newDemand" (keyup)="addDemand($event)" class="form-control date" placeholder="Demanda">
+                          </div>
+                          <span class="input-group-addon">
+                              <i (click)="addDemand()" style="cursor:pointer" class="material-icons">add</i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row clearfix">
+                      <div class="col-sm-8">
+                        <div class="body table-responsive">
+                          <table class="table">
+                            <tbody>
+                              <tr *ngFor="let service of issue.cmm.services">
+                                <td><i class="material-icons">compare_arrows</i>{{service.name}} <span class="badge bg-pink">{{service.version}}</span></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="body table-responsive">
+                          <table class="table">
+                            <tbody>
+                              <tr *ngFor="let demand of issue.cmm.demands">
+                                <td>{{demand}}</td>
+                                <td><i *ngIf="!issue._id" (click)="removeDemand(demand)" class="row-button material-icons">close</i></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
