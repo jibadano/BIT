@@ -5,24 +5,16 @@ import { Service }       from './service';
 
 
 export class Issue {
-	_id:number;
-	title:string;
-
-	issue:Boolean;
+	_id:string;
+	title: string;
 	assignee:string;
-	reporter:string;
-	branch:string;
-	comment:string;
 	resolution: string;
-	ticket:string;
-	ocurrences:any[]=[];
 	date: Date;
-	environment:Environment = new Environment();
+	ocurrences:Ocurrence[] = [];
+	ticket:string;
+	task:boolean;
+	environments: [string];
 	view:View = new View();
-	cmm:CMM = new CMM();
-	teradata:Teradata = new Teradata();
-	bpm:BPM = new BPM();
-	core:Core = new Core();
 }
 
 export class View {
@@ -30,22 +22,18 @@ export class View {
 	styles:Boolean = false;
 	masks:Boolean = false;
 	components: ViewComponent[] = [];
-
+	
 }
 
-export class Teradata {
-	storedProcedures:Service[] = [];
-}
 
-export class Core {
-	services:Service[] = [];
-}
 
-export class CMM {
-	services:Service[] = [];
-	demands:any[] = [];
-}
 
-export class BPM {
-	services:Service[] = [];
+export class Ocurrence{
+	date:Date;
+	reporter:string;
+	branch:string;
+	time:string;
+	user:string;
+	customer:string;
+	desc:string;
 }

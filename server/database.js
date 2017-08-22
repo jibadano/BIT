@@ -9,6 +9,7 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var environments = {};
+var sql = require("mssql");
 
 mongoose.connect('mongodb://localhost/db',{ useMongoClient: true });
 
@@ -34,9 +35,8 @@ var issueSchema = new mongoose.Schema({
 		rules:Boolean,
 		styles:Boolean,
 		masks:Boolean,
-		components:[{componentType:String,nombre_concatenado:String,version:Number}]
+		components:[{componentType:String,nombre_concatenado:String,version:Number, cmm:[{ type: ObjectId, ref: 'CMM'}] }]
 	},
-	cmm:[{ type: ObjectId, ref: 'CMM'}],
 });
 
 var cmmSchema = new mongoose.Schema({
@@ -73,10 +73,14 @@ var Environment = mongoose.model('Environment', environmentSchema);
 exports.init = function(){
 	Environment.find({},function(err,es){
 		if(!err && es)
-			es.forEach(function(e) {
-				var environment = {name:e.name,url:e.url,config:e.config,updated:new Date()};
-				environments[e.name] = environment;
-			});
+			for(var i=0;i<es.length;i++){
+				environments[es[i].name] = {name:es[i].name,url:es[i].url,config:es[i].config,updated:new Date()};
+				//environments[es[i].name].sql.close();
+				environments[es[i].name].sql = new sql.ConnectionPool(es[i].config, function (err) {
+					if (err) console.log(err);
+				});
+			}
+	
 	});
 
 }

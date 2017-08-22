@@ -4,7 +4,8 @@
       <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">INCIDENTES</a>
       <a href="javascript:void(0);" (click)="services.nav='tasks'" class="btn bg-indigo waves-effect" role="button">TAREAS</a>
       <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">PASAJES</a>
-      <a href="javascript:void(0);" routerLink="/issue" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
+      <a href="javascript:void(0);" *ngIf="services.nav=='issues'" routerLink="/issue" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
+      <a href="javascript:void(0);" *ngIf="services.nav=='tasks'" routerLink="/issue/task" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
       <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">navigate_next</i></a>
     </div>
 
@@ -38,11 +39,22 @@
             <h2>Incidentes <span class="label bg-indigo">{{issues.length}}</span></h2>
           </div>
             <table class="table table-hover">
+              <thead>
+                    <th>
+                      Fecha
+                    </th>
+                    <th>
+                      Descripción
+                    </th>
+                    <th>
+                      Responsable
+                    </th>
+                </thead>
                 <tbody>
                     <tr style="cursor:pointer" [routerLink]="['/issue', issue._id]" *ngFor="let issue of issues">
+                      <td style="width:10%">{{issue.date | date: 'dd/MM/yyyy'}}</td>
                       <td>{{issue.title}}</td>
-                        <td>
-                         </td>
+                      <td style="float:right">{{issue.assignee}}</td>
                     </tr>
                 </tbody>
             </table>
