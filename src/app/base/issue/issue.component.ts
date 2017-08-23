@@ -1,9 +1,10 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { AppService }        from '../../app.service';
-import { Issue, View }        from '../../core/issue';
+import { Issue, View, Ocurrence }        from '../../core/issue';
 import { ActivatedRoute } from '@angular/router';
 
-declare var tinymce:any;
+//declare var tinymce:any;
+declare var $:any;
 @Component({
   selector: 'app-issue',
   templateUrl: './issue.component.html',
@@ -21,28 +22,27 @@ export class IssueComponent implements OnInit {
     issue = new Issue();
     id: string = null;
 
-    newOcurrence = {};
+
+
+    newOcurrence = new Ocurrence();
     coreServices = [];
     cmmServices= [];
     constructor( private services: AppService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-  //   tinymce.init({ selector:'textarea',elementpath: false,
-  // file_browser_callback: function(field_name, url, type, win) {
-  //   win.document.getElementById(field_name).value = 'my browser value';
-  // } });
-   this.route.params.subscribe(params => {
-       let id = params['id']; 
-       
-       if(id)
-        if(id=='task')
-          this.issue.task = true;
-        else
-          this.services.exec("getIssue",{issue:{_id:id}}).then(co=>{
-            if(co.data)
-              this.issue = co.data;
-          })
-    });
+    // tinymce.init({ selector:'#resolution',elementpath: false});
+      this.route.params.subscribe(params => {
+          let id = params['id']; 
+          
+          if(id)
+            if(id=='task')
+              this.issue.task = true;
+            else
+              this.services.exec("getIssue",{issue:{_id:id}}).then(co=>{
+                if(co.data)
+                  this.issue = co.data;
+              })
+        });
   }
 
   reset(){
@@ -134,4 +134,26 @@ addServices(services){
       }
     }
   
+
+  uploadImage(){
+         $('input[type=file]').click();
+    }
+
+    previewFile(){
+       var file = $('input[type=file]')[0].files[0]; //sames as here
+       var reader  = new FileReader();
+       var ocurrence = this.newOcurrence;
+
+       reader.onloadend = function () {
+           ocurrence.images.push(reader.result);
+       }
+
+       if (file) 
+          reader.readAsDataURL(file);
+  
+       
+    }
+
 }
+
+

@@ -7,15 +7,15 @@
         <i class="material-icons">close</i>
     </div>
     <ul *ngIf="isOpen" class="list-group">
-        <li *ngFor="let result of searchResults.desa" class="list-group-item">
+        <li *ngFor="let result of searchResults" class="list-group-item">
             <div class="result">
                     <i *ngIf="result.componentType=='lo'" class="material-icons">dashboard</i>
                     <i *ngIf="result.componentType=='wf'" class="material-icons">device_hub</i>
                 {{result.nombre_concatenado}}
                 <span class="badge bg-pink">{{result.version}}</span>
-                <span class="badge bg-cyan">{{getVersion(result.name,'TEST')}}</span>
-                <span class="badge bg-purple">{{getVersion(result.name,'HOMO')}}</span>
-                <span class="badge bg-amber">{{getVersion(result.name,'PROD')}}</span>
+                <span class="badge bg-cyan">{{result.testVersion}}</span>
+                <span class="badge bg-purple">{{result.homoVersion}}</span>
+                <span class="badge bg-amber">{{result.prodVersion}}</span>
             </div>
         </li>
     </ul>

@@ -26,7 +26,8 @@ var issueSchema = new mongoose.Schema({
 		time:String,
 		user:String,
 		customer:String,
-		desc:String
+		desc:String,
+		images:[String]
 	}],
 	ticket:String,
 	task:{ type: Boolean, default: false },

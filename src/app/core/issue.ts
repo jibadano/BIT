@@ -36,4 +36,5 @@ export class Ocurrence{
 	user:string;
 	customer:string;
 	desc:string;
+	images:string[] = [];
 }

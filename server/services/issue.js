@@ -27,7 +27,7 @@ exports.getTasks = function(data, then){
 }
 
 exports.updIssue = function(data, then){
-	Issue.findOne(data.issue, function(err,issue){
+	Issue.findOne({_id:data.issue._id}, function(err,issue){
 		if(err)
 			return then(err, null);
 
