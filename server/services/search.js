@@ -72,11 +72,8 @@ exports.searchServices = function(data,then){
 
 	req.query(query, function (err, result) {
 		if(result){
-			
-			result.recordset.forEach(function(service){
-				db.CMM.find({name: { $in: getServiceList(result.recordset) }}).populate('core canonicals').exec((err,cmms)=>{
-					return then(null,cmms);
-				});
+			db.CMM.find({name: { $in: getServiceList(result.recordset) }}).populate('core canonicals').exec((err,cmms)=>{
+				return then(null,cmms);
 			});
 		}
 		else

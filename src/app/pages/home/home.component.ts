@@ -24,4 +24,11 @@ export class HomeComponent implements OnInit {
 
   }
 
+  getDate(issue){
+    if(issue.ocurrences.length != 0 && issue.ocurrences[0].date)
+      return issue.ocurrences[0].date;
+    else
+      return issue.date;
+  }
+
 }

@@ -42,7 +42,6 @@ exports.updIssue = function(data, then){
 		issue.task = data.issue.task;
 		issue.environments = data.issue.environments;
 		issue.view = data.issue.view;
-		issue.cmm = data.issue.cmm;
 		issue.save(then);
 	});
 }

@@ -23,10 +23,12 @@ export class IssueComponent implements OnInit {
     id: string = null;
 
 
-
+    
     newOcurrence = new Ocurrence();
     coreServices = [];
     cmmServices= [];
+    currentOcurrence = new Ocurrence();
+
     constructor( private services: AppService, private route: ActivatedRoute) {}
 
   ngOnInit() {
@@ -76,6 +78,12 @@ removeOcurrence(ocurrence){
   this.issue.ocurrences.splice(index,1);
 }
 
+removeImage(ocurrence, image){
+  var index = ocurrence.images.indexOf(image);
+  if(index != -1)
+    ocurrence.images.splice(index,1);
+}
+
 cmmSearch(event:any, searchTerm:string){
       if(searchTerm && searchTerm != "" && event.keyCode != 27)
         this.services.exec('cmmSearch',{searchTerm:searchTerm}).then(co=>{
@@ -97,7 +105,7 @@ select(result){
           let newComp = Object.assign({},result);
           newComp.cmm = [];
           if(co.data){
-            newComp.cmm.push(co.data);
+            newComp.cmm = newComp.cmm.concat(co.data);
             this.addServices(co.data);
           }
           this.issue.view.components.push(newComp);
@@ -135,14 +143,15 @@ addServices(services){
     }
   
 
-  uploadImage(){
+  uploadImage(ocurrence){
+        this.currentOcurrence = ocurrence;
          $('input[type=file]').click();
     }
 
     previewFile(){
        var file = $('input[type=file]')[0].files[0]; //sames as here
        var reader  = new FileReader();
-       var ocurrence = this.newOcurrence;
+       var ocurrence = this.currentOcurrence;
 
        reader.onloadend = function () {
            ocurrence.images.push(reader.result);
