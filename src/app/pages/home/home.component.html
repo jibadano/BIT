@@ -1,58 +1,75 @@
 <div class="row clearfix">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="btn-group btn-group-justified btn-actions" role="group" >
-      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">INCIDENTES</a>
-      <a href="javascript:void(0);" (click)="services.nav='tasks'" class="btn bg-indigo waves-effect" role="button">TAREAS</a>
-      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">PASAJES</a>
-      <a href="javascript:void(0);" *ngIf="services.nav=='issues'" routerLink="/issue" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
-      <a href="javascript:void(0);" *ngIf="services.nav=='tasks'" routerLink="/issue/task" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">add</i></a>
-      <a href="javascript:void(0);" (click)="services.nav='issues'" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">navigate_next</i></a>
+    <div class="btn-group btn-group-justified btn-actions" role="group">
+      <a md-raised-button [class.selected]="services.nav=='issues'" (click)="services.nav='issues'">INCIDENTES</a>
+      <a md-raised-button [class.selected]="services.nav=='tasks'" (click)="services.nav='tasks'">TAREAS</a>
+      <a md-raised-button [class.selected]="services.nav=='pass'" (click)="services.nav='issues'">PASAJES</a>
     </div>
-
 
     <div *ngIf="services.nav=='tasks'" class="card">
-        <div class="body table-responsive">
-          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="body">
+        <div class="row clearfix">
+          <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <h2>Tareas <span class="label bg-indigo">{{tasks.length}}</span></h2>
           </div>
-            <table class="table table-hover">
-                <tbody>
-                    <tr style="cursor:pointer" [routerLink]="['/issue', task._id]" *ngFor="let task of tasks">
-                     <td style="width:10%">{{getDate(task) | date: 'dd/MM/yyyy'}}</td>
-                      <td style="width:10%">{{task.assignee}}</td>
-                      <td>{{task.title}}</td>
-                    </tr>
-                </tbody>
-            </table>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="sub-menu">
+              <a routerLink="/issue/task" md-mini-fab><md-icon>add</md-icon></a>
+              <button md-fab><md-icon>check</md-icon></button>
+            </div>
+          </div>
         </div>
+        <div class="row clearfix">
+          <div class="body table-responsive">
+            <table class="table table-hover">
+              <tbody>
+                <tr style="cursor:pointer" [routerLink]="['/issue', task._id]" *ngFor="let task of tasks">
+                  <td style="width:10%">{{getDate(task) | date: 'dd/MM/yyyy'}}</td>
+                  <td style="width:10%">{{task.assignee}}</td>
+                  <td>{{task.title}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-       <div *ngIf="services.nav=='issues'" class="card">
-        <div class="body table-responsive">
-          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+    <div *ngIf="services.nav=='issues'" class="card">
+      <div class="body">
+        <div class="row clearfix">
+          <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
             <h2>Incidentes <span class="label bg-indigo">{{issues.length}}</span></h2>
           </div>
-            <table class="table table-hover">
-              <thead>
-                    <th style="width:10%">
-                      Fecha
-                    </th>
-                     <th style="width:10%">
-                      Responsable
-                    </th>
-                    <th>
-                      Descripción
-                    </th>
-                   
-                </thead>
-                <tbody>
-                    <tr style="cursor:pointer" [routerLink]="['/issue', issue._id]" *ngFor="let issue of issues">
-                      <td style="width:10%">{{getDate(issue) | date: 'dd/MM/yyyy'}}</td>
-                      <td style="width:10%">{{issue.assignee}}</td>
-                      <td>{{issue.title}}</td>
-                    </tr>
-                </tbody>
-            </table>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="sub-menu">
+              <a routerLink="/issue" md-mini-fab><md-icon>add</md-icon></a>
+              <button md-fab><md-icon>check</md-icon></button>
+            </div>
+          </div>
         </div>
+        <div class="body table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <th style="width:10%">
+                Fecha
+              </th>
+              <th style="width:10%">
+                Responsable
+              </th>
+              <th>
+                Descripción
+              </th>
+            </thead>
+            <tbody>
+              <tr style="cursor:pointer" [routerLink]="['/issue', issue._id]" *ngFor="let issue of issues">
+                <td style="width:10%">{{getDate(issue) | date: 'dd/MM/yyyy'}}</td>
+                <td style="width:10%">{{issue.assignee}}</td>
+                <td>{{issue.title}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

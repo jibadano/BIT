@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 .btn-group-justified .btn{
     width:auto;
@@ -10,4 +11,43 @@
 
 section.content{
     margin:100px 5% 0 5%;
+}
+
+.btn-group-justified a{
+    display:table-cell;
+}
+
+.title{
+    display:flex;
+}
+
+.back-button{
+    margin-top: 16px!important;
+    margin-right: 10px!important;
+}
+.sub-menu{
+    margin-top:12px;
+    float:right;
+}
+
+.sub-menu a, .sub-menu button{
+    margin-right:10px;
+}
+
+
+.mat-input-container{
+    width:100%;
+}
+
+.mat-input-container.input-large input{
+    font-size:27px;
+}
+
+.mat-input-container.input-large label{
+    font-size:20px;
+}
+
+.mat-raised-button.selected{
+    background-color: #3f51b5!important;
+    color: rgba(255,255,255,.87)!important;
 }

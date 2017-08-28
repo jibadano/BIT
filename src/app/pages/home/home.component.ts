@@ -17,8 +17,6 @@ export class HomeComponent implements OnInit {
     
   }
   ngOnInit(){
-    this.services.loadScript("admin.js");
-    this.services.loadScript("demo.js");
     this.services.exec("getTasks",{}).then(co=>this.tasks = co.data);
     this.services.exec("getIssues",{}).then(co=>this.issues = co.data);
 

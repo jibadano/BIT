@@ -1,58 +1,66 @@
-<script>tinymce.init({ selector:'#resolution',elementpath: false});</script>
 <div class="row clearfix">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="btn-group btn-group-justified btn-actions" role="group">
-      <a href="javascript:void(0);" routerLink="/" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">navigate_before</i></a>
-      <a href="javascript:void(0);" routerLink="/" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">INCIDENTES</a>
-      <a href="javascript:void(0);" routerLink="/" (click)="services.nav='tasks'" class="btn bg-indigo waves-effect" role="button">TAREAS</a>
-      <a href="javascript:void(0);" routerLink="/" (click)="services.nav='issues'" class="btn bg-indigo waves-effect" role="button">PASAJES</a>
-      <a href="javascript:void(0);" *ngIf="issue._id" (click)="remove()" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">delete</i></a>
-      <a href="javascript:void(0);" *ngIf="!issue._id && !id" (click)="reset()" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">replay</i></a>
-      <a href="javascript:void(0);" *ngIf="!issue._id && id" (click)="issue._id=id; id=null" class="btn btn-icon bg-indigo waves-effect " role="button"><i class="material-icons">close</i></a>
-      <a href="javascript:void(0);" *ngIf="issue._id" (click)="id = issue._id; issue._id=null" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">edit</i></a>
-      <a href="javascript:void(0);" *ngIf="!issue._id" (click)="done()" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">done</i></a>
-      <a href="javascript:void(0);" *ngIf="issue._id" (click)="id=issue._id;issue.task=true; done()" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">navigate_next</i></a>
+      <a md-raised-button [class.selected]="services.nav=='issues'" routerLink="/" (click)="services.nav='issues'">INCIDENTES</a>
+      <a md-raised-button [class.selected]="services.nav=='tasks'" routerLink="/" (click)="services.nav='tasks'">TAREAS</a>
+      <a md-raised-button [class.selected]="services.nav=='pass'" routerLink="/" (click)="services.nav='issues'">PASAJES</a>
     </div>
     <div class="card">
       <div class="body">
-        <h2 *ngIf="!issue.task">
-              Incidente <small>{{issue._id}}</small>
-            </h2>
-            <h2 *ngIf="issue.task">
-              Tarea <small>{{issue._id}}</small>
-            </h2>
         <div class="row clearfix">
-          <div class="col-sm-8">
-            
-            <div class="form-group form-group-lg">
-              <div class="form-line">
-                <input [disabled]="issue._id" type="text" [(ngModel)]="issue.title" class="form-control" placeholder="Título">
-              </div>
-            </div>
+          <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
+              <a md-icon-button routerLink="/" class="back-button"><md-icon>navigate_before</md-icon></a>
+            <h2>
+              <div *ngIf="!issue.task">Incidente</div> <div *ngIf="issue.task">Tarea</div> <small>{{issue._id}}</small>
+            </h2>
           </div>
-          <div class="col-sm-4">
-            <div class="form-group form-group-lg">
-              <div class="form-line">
-                <input [disabled]="issue._id" type="text" [(ngModel)]="issue.assignee" class="form-control" placeholder="Asignado a">
-              </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div *ngIf="!issue._id" class="sub-menu">
+              <a routerLink="/" md-mini-fab><md-icon>close</md-icon></a>
+              <button (click)="done()" md-fab><md-icon>check</md-icon></button>
+            </div>
+            <div *ngIf="issue._id" class="sub-menu">
+              <button *ngIf="!issue.task" (click)="issue.task=true; done()" md-mini-fab><md-icon>navigate_next</md-icon></button>
+              <button *ngIf="issue.task" (click)="issue.task=false; done()" md-mini-fab><md-icon>navigate_next</md-icon></button> 
+              <a (click)="remove()" md-mini-fab><md-icon>delete</md-icon></a>
+              <a (click)="done()" md-fab><md-icon>save</md-icon></a>
             </div>
           </div>
         </div>
         <div class="row clearfix">
+          <div class="col-sm-8">
+            <md-input-container class="input-large">
+              <input mdInput placeholder="Título" [(ngModel)]="issue.title">
+            </md-input-container>
+          </div>
+          <div class="col-sm-4">
+            <md-input-container class="input-large">
+              <input mdInput  placeholder="Asignado a" [(ngModel)]="issue.assignee">
+            </md-input-container>
+          </div>
+        </div>
+        <div class="row clearfix">
           <div class="col-sm-12">
-            <div class="form-group form-group-lg">
-              <div class="form-line">
-                <textarea [disabled]="issue._id" id="resolution" placeholder="Resolución" style="width:100%;height:100px" [(ngModel)]="issue.resolution"></textarea>
-              </div>
-            </div>
+            <md-input-container>
+              <textarea mdInput  placeholder="Resolución" style="width:100%;height:100px" [(ngModel)]="issue.resolution"></textarea>
+            </md-input-container>
           </div>
         </div>
         
         <div class="row clearfix">
           <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
-            <h2>
-              Ocurrencias <small *ngIf="issue.ocurrences.length==0">No hubo ocurrencias en producción</small>
-            </h2>
+            <div class="row clearfix">
+              <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <h3>
+                  Ocurrencias<small *ngIf="issue._id && issue.ocurrences.length==0">No hubo ocurrencias en producción</small>
+                </h3>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="sub-menu">
+                  <a *ngIf="!newOcurrence" (click)="addNewOcurrence()" md-mini-fab><md-icon>add</md-icon></a>
+                </div>
+              </div>
+            </div>
             <div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
                <div *ngFor="let ocurrence of issue.ocurrences; let i=index" class="panel panel-col-indigo">
                 <div class="panel-heading" role="tab" id="headingOne_1">
@@ -68,59 +76,52 @@
                   <div class="panel-body">
                     <div class="row clearfix">
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="ocurrence.reporter" class="form-control" placeholder="Informador">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="ocurrence.branch" class="form-control" placeholder="Sucursal">
-                          </div>
-                        </div>
+                        <md-input-container>
+                          <input mdInput placeholder="Informador" [(ngModel)]="ocurrence.reporter">
+                        </md-input-container>
+                        <md-input-container>
+                          <input mdInput placeholder="Sucursal" [(ngModel)]="ocurrence.branch">
+                        </md-input-container>
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="ocurrence.user" class="form-control" placeholder="Usuario">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="ocurrence.customer" class="form-control" placeholder="Cliente">
-                          </div>
-                        </div>
+                        <md-input-container>
+                          <input mdInput placeholder="Usuario" [(ngModel)]="ocurrence.user">
+                        </md-input-container>
+                        <md-input-container>
+                          <input mdInput placeholder="Cliente" [(ngModel)]="ocurrence.customer">
+                        </md-input-container>
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="date" id="email_address" [(ngModel)]="ocurrence.date" class="form-control" placeholder="Fecha">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input [disabled]="issue._id" type="text" id="email_address" [(ngModel)]="ocurrence.time" class="form-control" placeholder="Hora">
-                          </div>
-                        </div>
+                        <md-input-container>
+                          <input mdInput [mdDatepicker]="picker" [value]="now()" [max]="now()" placeholder="Fecha" [(ngModel)]="ocurrence.date">
+                          <button mdSuffix [mdDatepickerToggle]="picker"></button>
+                        </md-input-container>
+                        <md-datepicker #picker></md-datepicker>
+                        <md-input-container>
+                          <input mdInput placeholder="Hora" [(ngModel)]="ocurrence.time">
+                        </md-input-container>
                       </div>
                     </div>
                     <div class="row clearfix">
                       <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
-                        <textarea [disabled]="issue._id" [(ngModel)]="ocurrence.desc" style="width:100%;height:100px" id="tinymce">
-                          </textarea>
+                        <md-input-container>
+                          <textarea mdInput placeholder="Descripción" [(ngModel)]="ocurrence.desc" style="width:100%;height:100px"></textarea>                        
+                        </md-input-container> 
                       </div>
                       <div *ngFor="let image of ocurrence.images"> 
-                        <a *ngIf="!issue._id" href="javascript:void(0);"  style="float:right" (click)="removeImage(ocurrence,image)" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">close</i></a>
-                        <img  style="max-width:100%"  src="{{image}}" alt="">
+                        <a (click)="removeImage(ocurrence,image)" style="margin:15px" md-mini-fab><md-icon>close</md-icon></a>
+                        <img style="max-width:100%"  src="{{image}}" alt="">
                       </div>
-                      <a *ngIf="!issue._id" href="javascript:void(0);" style="float:right" (click)="removeOcurrence(ocurrence)" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">delete</i></a>
-                      <a *ngIf="!issue._id" href="javascript:void(0);" style="float:right" (click)="uploadImage(ocurrence)" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">add_a_photo</i></a>
+                       <div class="sub-menu">
+                        <a (click)="removeOcurrence(ocurrence)"  md-mini-fab><md-icon>delete</md-icon></a>
+                        <a (click)="uploadImage(ocurrence)" md-mini-fab><md-icon>add_a_photo</md-icon></a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-               <div *ngIf="!issue._id" class="panel panel-col-indigo">
+               <div *ngIf="newOcurrence" class="panel panel-col-indigo">
                 <div class="panel-heading" role="tab" id="headingOne_1">
                   <h4 class="panel-title">
                     <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#collapseOne_1" aria-expanded="false" aria-controls="collapseOne_1"
@@ -134,54 +135,48 @@
                   <div class="panel-body">
                     <div class="row clearfix">
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.reporter" class="form-control" placeholder="Informador">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.branch" class="form-control" placeholder="Sucursal">
-                          </div>
-                        </div>
+                        <md-input-container>
+                          <input mdInput placeholder="Informador" [(ngModel)]="newOcurrence.reporter">
+                        </md-input-container>
+                        <md-input-container>
+                          <input mdInput placeholder="Sucursal" [(ngModel)]="newOcurrence.branch">
+                        </md-input-container>
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.user" class="form-control" placeholder="Usuario">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.customer" class="form-control" placeholder="Cliente">
-                          </div>
-                        </div>
+                        <md-input-container>
+                          <input mdInput placeholder="Usuario" [(ngModel)]="newOcurrence.user">
+                        </md-input-container>
+                        <md-input-container>
+                          <input mdInput placeholder="Cliente" [(ngModel)]="newOcurrence.customer">
+                        </md-input-container>
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input  type="date" id="email_address" [(ngModel)]="newOcurrence.date" class="form-control" placeholder="Fecha">
-                          </div>
-                        </div>
-                        <div class="form-group">
-                          <div class="form-line">
-                            <input  type="text" id="email_address" [(ngModel)]="newOcurrence.time" class="form-control" placeholder="Hora">
-                          </div>
-                        </div>
+                        <md-input-container>
+                          <input mdInput [mdDatepicker]="picker" [value]="now()" [max]="now()" placeholder="Fecha" [(ngModel)]="newOcurrence.date">
+                          <button mdSuffix [mdDatepickerToggle]="picker"></button>
+                        </md-input-container>
+                        <md-datepicker #picker></md-datepicker>
+                        <md-input-container>
+                          <input mdInput placeholder="Hora" [(ngModel)]="newOcurrence.time">
+                        </md-input-container>
                       </div>
                     </div>
                     <div class="row clearfix">
                       <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
-                        <textarea  [(ngModel)]="newOcurrence.desc" style="width:100%;height:100px" id="tinymce">
-                          </textarea>
+                        <md-input-container>
+                          <textarea mdInput placeholder="Descripción" [(ngModel)]="newOcurrence.desc" style="width:100%;height:100px"></textarea>                        
+                        </md-input-container>   
                       </div>
                       <div *ngFor="let image of newOcurrence.images"> 
-                        <a href="javascript:void(0);"  style="float:right" (click)="removeImage(newOcurrence,image)" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">close</i></a>
-                        <img  style="max-width:100%"  src="{{image}}" alt="">
+                        <a (click)="removeImage(newOcurrence,image)" style="margin:15px" md-mini-fab><md-icon>close</md-icon></a>
+                        <img  style="max-width:100%" src="{{image}}" alt="">
                       </div>
-                       <a href="javascript:void(0);" style="float:right" (click)="issue.ocurrences.push(newOcurrence);newOcurrence={}" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">navigate_next</i></a>
-                      <a href="javascript:void(0);" style="float:right" (click)="uploadImage(newOcurrence)" class="btn btn-icon bg-indigo waves-effect" role="button"><i class="material-icons">add_a_photo</i></a>
-                    </div>
+                      <div class="sub-menu">
+                        <a (click)="uploadImage(newOcurrence)" md-mini-fab><md-icon>add_a_photo</md-icon></a>
+                        <a (click)="newOcurrence=null" md-mini-fab><md-icon>close</md-icon></a>
+                        <button md-fab (click)="issue.ocurrences.push(newOcurrence);newOcurrence=null"><md-icon>check</md-icon></button>
+                      </div>
+                     </div>
                   </div>
                 </div>
               </div>
@@ -191,13 +186,13 @@
 
         <div *ngIf="issue.task" class="row clearfix">
           <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
-            <h2>
+            <h3>
               Componentes afectados <small></small>
-            </h2>
+            </h3>
 
             <div class="row clearfix">
               <div class="col-sm-4">
-                <div *ngIf="!issue._id" class="form-group">
+                <div class="form-group">
                   <div class="form-line">
                     <input type="text" [(ngModel)]="viewSearchTerm" (keyup)="search($event,viewSearchTerm)" class="form-control" placeholder="Buscar componentes">
                   </div>

@@ -1,10 +1,43 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap/modal';
-
+import {
+  MdAutocompleteModule,
+  MdButtonModule,
+  MdButtonToggleModule,
+  MdCardModule,
+  MdCheckboxModule,
+  MdChipsModule,
+  MdCoreModule,
+  MdDatepickerModule,
+  MdDialogModule,
+  MdExpansionModule,
+  MdGridListModule,
+  MdIconModule,
+  MdInputModule,
+  MdListModule,
+  MdMenuModule,
+  MdNativeDateModule,
+  MdPaginatorModule,
+  MdProgressBarModule,
+  MdProgressSpinnerModule,
+  MdRadioModule,
+  MdRippleModule,
+  MdSelectModule,
+  MdSidenavModule,
+  MdSliderModule,
+  MdSlideToggleModule,
+  MdSnackBarModule,
+  MdSortModule,
+  MdTableModule,
+  MdTabsModule,
+  MdToolbarModule,
+  MdTooltipModule,
+} from '@angular/material';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './base/menu/menu.component';
 import { SearchComponent } from './base/search/search.component';
@@ -41,9 +74,40 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FormsModule,
     ReactiveFormsModule,
-    NoopAnimationsModule,
-    ModalModule.forRoot()
-  ],
+    BrowserAnimationsModule,
+    ModalModule.forRoot(),
+    MdAutocompleteModule,
+  MdButtonModule,
+  MdButtonToggleModule,
+  MdCardModule,
+  MdCheckboxModule,
+  MdChipsModule,
+  MdCoreModule,
+  MdDatepickerModule,
+  MdDialogModule,
+  MdExpansionModule,
+  MdGridListModule,
+  MdIconModule,
+  MdInputModule,
+  MdListModule,
+  MdMenuModule,
+  MdNativeDateModule,
+  MdPaginatorModule,
+  MdProgressBarModule,
+  MdProgressSpinnerModule,
+  MdRadioModule,
+  MdRippleModule,
+  MdSelectModule,
+  MdSidenavModule,
+  MdSliderModule,
+  MdSlideToggleModule,
+  MdSnackBarModule,
+  MdSortModule,
+  MdTableModule,
+  MdTabsModule,
+  MdToolbarModule,
+  MdTooltipModule,
+    ],
   providers: [AppService],
   bootstrap: [AppComponent]
 })

@@ -77,9 +77,9 @@ exports.init = function(){
 			for(var i=0;i<es.length;i++){
 				environments[es[i].name] = {name:es[i].name,url:es[i].url,config:es[i].config,updated:new Date()};
 				//environments[es[i].name].sql.close();
-				environments[es[i].name].sql = new sql.ConnectionPool(es[i].config, function (err) {
-					if (err) console.log(err);
-				});
+				//environments[es[i].name].sql = new sql.ConnectionPool(es[i].config, function (err) {
+				//	if (err) console.log(err);
+				//});
 			}
 	
 	});
