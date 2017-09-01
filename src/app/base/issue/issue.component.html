@@ -93,7 +93,7 @@
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
                         <md-input-container>
-                          <input mdInput [mdDatepicker]="picker" [value]="now()" [max]="now()" placeholder="Fecha" [(ngModel)]="ocurrence.date">
+                          <input mdInput [mdDatepicker]="picker"  placeholder="Fecha" [(ngModel)]="ocurrence.date">
                           <button mdSuffix [mdDatepickerToggle]="picker"></button>
                         </md-input-container>
                         <md-datepicker #picker></md-datepicker>
@@ -152,7 +152,7 @@
                       </div>
                       <div class="col-xs-4 ol-sm-4 col-md-4 col-lg-4">
                         <md-input-container>
-                          <input mdInput [mdDatepicker]="picker" [value]="now()" [max]="now()" placeholder="Fecha" [(ngModel)]="newOcurrence.date">
+                          <input mdInput [mdDatepicker]="picker"  placeholder="Fecha" [(ngModel)]="newOcurrence.date">
                           <button mdSuffix [mdDatepickerToggle]="picker"></button>
                         </md-input-container>
                         <md-datepicker #picker></md-datepicker>

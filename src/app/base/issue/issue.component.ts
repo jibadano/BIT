@@ -16,8 +16,6 @@ export class IssueComponent implements OnInit {
 
   issue = new Issue();
 
-
-
   newOcurrence : Ocurrence = null;
   coreServices = [];
   cmmServices = [];
@@ -55,7 +53,7 @@ export class IssueComponent implements OnInit {
   done(){
     if (this.issue._id) 
       this.services.exec("updIssue", { issue: this.issue }).then(co => {
-
+        this.services.router.navigate(['/']);
       });
     else
       this.services.exec("addIssue", { issue: this.issue }).then(co => {

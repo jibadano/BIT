@@ -2,7 +2,7 @@ const db = require('../database');
 const eh = require('../errorHandler');
 
 exports.search = function(data, then){
-	return then(null,db.layouts.resultset);
+	//return then(null,db.layouts.resultset);
 	searchLayouts(data,function(err,layouts){
 		searchWorkflows(data,function(err,workflows){
 			layouts = layouts.concat(workflows);
@@ -63,7 +63,6 @@ exports.cmmSearch = function(data, then){
 }
 
 exports.searchServices = function(data,then){
-	return then(null,db.cmm.resultset);
 	var req = db.environments.DESA.sql.request();
 	var query = "";
 
