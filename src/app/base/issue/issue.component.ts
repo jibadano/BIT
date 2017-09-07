@@ -15,7 +15,7 @@ export class IssueComponent implements OnInit {
   viewSearchTerm = "";
 
   issue = new Issue();
-
+  show = false;
   newOcurrence : Ocurrence = null;
   coreServices = [];
   cmmServices = [];
@@ -26,19 +26,30 @@ export class IssueComponent implements OnInit {
     return new Date();
   }
 
+
+  animate(){
+    this.show=false;
+    setTimeout(()=>this.show=true,200)
+  }
+
+
   ngOnInit() {
     // tinymce.init({ selector:'#resolution',elementpath: false});
     this.route.params.subscribe(params => {
       let id = params['id'];
 
-      if (id)
-        if (id == 'task')
+      if (id){ if (id == 'task')
           this.issue.task = true;
         else
           this.services.exec("getIssue", { issue: { _id: id } }).then(co => {
             if (co.data)
               this.issue = co.data;
+              this.animate();
           })
+        }
+
+        else
+          this.animate();
     });
   }
 

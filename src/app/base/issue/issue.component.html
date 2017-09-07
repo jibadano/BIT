@@ -6,7 +6,7 @@
       <a md-raised-button [class.selected]="services.nav=='pass'" routerLink="/" (click)="services.nav='issues'">PASAJES</a>
     </div>
     <div class="card">
-      <div class="body">
+      <div [class.show]="show" class="not-show body">
         <div class="row clearfix">
           <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
               <a md-icon-button routerLink="/" class="back-button"><md-icon>navigate_before</md-icon></a>
