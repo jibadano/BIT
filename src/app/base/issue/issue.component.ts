@@ -30,6 +30,9 @@ export class IssueComponent implements OnInit {
   animate(){
     this.show=false;
     setTimeout(()=>this.show=true,200)
+    setTimeout(()=>{
+      $("a[href='#ocurrence0']").click();
+    },400)
   }
 
 
@@ -83,6 +86,10 @@ export class IssueComponent implements OnInit {
 
   addNewOcurrence(){
     this.newOcurrence = new Ocurrence();
+    setTimeout(()=>{
+      $("a[href='#collapseOne_1']").click();
+    },100)
+    
   }
 
   removeOcurrence(ocurrence) {
@@ -114,6 +121,22 @@ export class IssueComponent implements OnInit {
 
     if (file)
       reader.readAsDataURL(file);
+  }
+
+  pasteImage(e,ocurrence){
+    console.log(e);
+    Array.prototype.forEach.call(e.clipboardData.types, function(type, i) {
+      var file, reader;
+
+      if (type.match(/image.*/) || e.clipboardData.items[i].type.match(/image.*/)) {
+        file = e.clipboardData.items[i].getAsFile();
+        reader = new FileReader();
+        reader.onload = function(evt) {
+          ocurrence.images.push(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   }
 
   //PASAJE
