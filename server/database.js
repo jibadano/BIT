@@ -12,6 +12,7 @@ var environments = {};
 var sql = require("mssql");
 
 mongoose.connect('mongodb://localhost/db',{ useMongoClient: true });
+var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 /*	Schemas	*/
 var issueSchema = new mongoose.Schema({
@@ -19,6 +20,7 @@ var issueSchema = new mongoose.Schema({
 	assignee:String,
 	resolution: String,
 	date: { type: Date, default: Date.now },
+	release:{ type: ObjectId, ref: 'Release'},
 	ocurrences:[{
 		date:Date,
 		reporter:String,
@@ -27,6 +29,7 @@ var issueSchema = new mongoose.Schema({
 		user:String,
 		customer:String,
 		desc:String,
+		ticket:String,
 		images:[String]
 	}],
 	ticket:String,
@@ -38,6 +41,7 @@ var issueSchema = new mongoose.Schema({
 		masks:Boolean,
 		components:[{componentType:String,nombre_concatenado:String,version:Number, cmm:[{ type: ObjectId, ref: 'CMM'}] }]
 	},
+	demand:String
 });
 
 var cmmSchema = new mongoose.Schema({
@@ -45,10 +49,16 @@ var cmmSchema = new mongoose.Schema({
 	core: { type: ObjectId, ref: 'Core'},
 	canonicals: [{ type: ObjectId, ref: 'CMM'}]
 });
+cmmSchema.plugin(deepPopulate,{});
 
 var coreSchema = new mongoose.Schema({
 	name: String,
 	origin: String,
+});
+
+var releaseSchema =  new mongoose.Schema({
+	date: { type: Date, default: Date.now },
+	issues: [{ type: ObjectId, ref: 'Issue'}]
 });
 
 var environmentSchema = new mongoose.Schema({
@@ -69,6 +79,8 @@ var CMM = mongoose.model('CMM', cmmSchema);
 exports.CMM = CMM;
 var Core = mongoose.model('Core', coreSchema);
 exports.Core = Core;
+var Release = mongoose.model('Release', releaseSchema);
+exports.Release = Release;
 var Environment = mongoose.model('Environment', environmentSchema);
 
 exports.init = function(){

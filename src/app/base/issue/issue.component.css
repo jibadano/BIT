@@ -9,6 +9,7 @@
 
 .search-item{
    cursor:pointer;
+   font-size:12px;
 }
 
 td .input-group{
@@ -28,4 +29,12 @@ td{
 
 .component{
     font-size:12px;
+}
+
+.badge.bg-black{
+    margin-right: 5px;
+}
+
+.badge.bg-dark-grey{
+    margin-right: 5px;
 }

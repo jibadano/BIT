@@ -3,7 +3,7 @@
     <div class="btn-group btn-group-justified btn-actions" role="group">
       <a md-raised-button [class.selected]="services.nav=='issues'" (click)="services.nav='issues';animate()">INCIDENTES</a>
       <a md-raised-button [class.selected]="services.nav=='tasks'" (click)="services.nav='tasks';animate()">TAREAS</a>
-      <a md-raised-button [class.selected]="services.nav=='deploys'" (click)="services.nav='deploys';animate()">PASAJES</a>
+      <a md-raised-button [class.selected]="services.nav=='releases'" (click)="services.nav='releases';animate()">PASAJES</a>
     </div>
 
  <div  *ngIf="loading"  class="card">
@@ -39,23 +39,45 @@
                 <a routerLink="/issue/task" md-mini-fab>
                   <md-icon>add</md-icon>
                 </a>
-                <button md-fab><md-icon>check</md-icon></button>
+                <button *ngIf="!newRelease"  (click)="initRelease()" md-fab><md-icon>check</md-icon></button>
+                <button *ngIf="newRelease" (click)="addRelease()" md-fab><md-icon>check</md-icon></button>
               </div>
             </div>
           </div>
           <div class="row clearfix">
             <div class="body table-responsive">
-              <table class="table table-hover">
-                <tbody>
-                  <tr [class.btn-danger]="getDelay(task) > secondDelay" [class.btn-warning]="getDelay(task) > firstDelay" style="cursor:pointer"
-                    [routerLink]="['/issue', task._id]" *ngFor="let task of tasks">
-                    <td style="width:10%">{{getDate(task) | date: 'dd/MM'}}</td>
-                    <td style="width:10%">{{task.assignee}}</td>
-                    <td>{{task.title}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <table class="table table-hover">
+              <thead>
+                <th style="width:10%;padding:10px">
+                  Fecha resolución
+                </th>
+                <th style="width:10%;padding:10px">
+                  Responsable
+                </th>
+                <th style="padding:10px">
+                  Descripción
+                </th>
+              </thead>
+              <tbody *ngIf="!newRelease">
+                <tr style="cursor:pointer" [routerLink]="['/issue', task._id]" *ngFor="let task of tasks">
+                  <td [class.col-red]="getDelay(task) > secondDelay" [class.col-orange]="getDelay(task) > firstDelay && secondDelay >= getDelay(task)" style="width:10%">
+                    {{task.date | date: 'dd/MM'}} <span mdTooltip="Retraso de una semana!" *ngIf="getDelay(task) > secondDelay" style="font-size:13px" class="label bg-red">!</span>
+                  </td>
+                  <td style="width:10%"><md-icon style="vertical-align:bottom">person_outline</md-icon>{{task.assignee}}</td>
+                  <td>{{task.title}} <span mdTooltip="{{task.ocurrences.length}} ocurrencias registradas" *ngIf="task.ocurrences.length > 1" [class.bg-red]="task.ocurrences.length > 2" [class.bg-indigo]="task.ocurrences.length == 2" class="label">{{task.ocurrences.length}}</span></td>
+                </tr>   
+              </tbody>
+              <tbody *ngIf="newRelease">
+                <tr style="cursor:pointer" [class.bg-grey]="containsIssue(task)" (click)="addIssueRelease(task)" *ngFor="let task of tasks">
+                  <td [class.col-red]="getDelay(task) > secondDelay" [class.col-orange]="getDelay(task) > firstDelay && secondDelay >= getDelay(task)" style="width:10%">
+                    {{task.date | date: 'dd/MM'}} <span mdTooltip="Retraso de una semana!" *ngIf="getDelay(task) > secondDelay" style="font-size:13px" class="label bg-red">!</span>
+                  </td>
+                  <td style="width:10%"><md-icon style="vertical-align:bottom">person_outline</md-icon>{{task.assignee}}</td>
+                  <td>{{task.title}} <span mdTooltip="{{task.ocurrences.length}} ocurrencias registradas" *ngIf="task.ocurrences.length > 1" [class.bg-red]="task.ocurrences.length > 2" [class.bg-indigo]="task.ocurrences.length == 2" class="label">{{task.ocurrences.length}}</span></td>
+                </tr>   
+              </tbody>
+            </table>
+          </div>
           </div>
         </div>
       </div>
@@ -63,7 +85,7 @@
         <div  [class.show]="show" class="not-show body">
           <div class="row clearfix">
             <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
-              <h2>Incidentes <span class="label bg-indigo">{{issues.length}}</span></h2>
+              <h2>Incidentes <span mdTooltip="Actualmente existen {{issues.length}} incidentes en producción. Resuélvanlos!" class="label bg-indigo">{{issues.length}}</span></h2>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
               <div class="sub-menu">
@@ -77,37 +99,110 @@
           <div class="body table-responsive">
             <table class="table table-hover">
               <thead>
-                <th style="width:10%">
+                <th style="width:10%;padding:10px">
                   Fecha
                 </th>
-                <th style="width:10%">
+                <th style="width:10%;padding:10px">
                   Responsable
                 </th>
-                <th>
+                <th style="padding:10px">
                   Descripción
                 </th>
               </thead>
               <tbody>
-                <tr [class.btn-danger]="getDelay(issue) > secondDelay" [class.btn-warning]="getDelay(issue) > firstDelay" style="cursor:pointer"
-                  [routerLink]="['/issue', issue._id]" *ngFor="let issue of issues">
-                  <td style="width:10%">{{getDate(issue) | date: 'dd/MM'}}</td>
-                  <td style="width:10%">{{issue.assignee}}</td>
-                  <td>{{issue.title}} <span *ngIf="issue.ocurrences.length > 1" [class.bg-red]="issue.ocurrences.length > 2" [class.bg-indigo]="issue.ocurrences.length == 2" class="label">{{issue.ocurrences.length}}</span></td>
-                </tr>
+                <tr style="cursor:pointer" [routerLink]="['/issue', issue._id]" *ngFor="let issue of issues">
+                  <td [class.col-red]="getDelay(issue) > secondDelay" [class.col-orange]="getDelay(issue) > firstDelay && secondDelay >= getDelay(issue)" style="width:10%">
+                    {{getDate(issue) | date: 'dd/MM'}} <span mdTooltip="Retraso de una semana!" *ngIf="getDelay(issue) > secondDelay" style="font-size:13px" class="label bg-red">!</span>
+                  </td>
+                  <td style="width:10%"><md-icon style="vertical-align:bottom">person_outline</md-icon>{{issue.assignee}}</td>
+                  <td>{{issue.title}} <span mdTooltip="{{issue.ocurrences.length}} ocurrencias registradas" *ngIf="issue.ocurrences.length > 1" [class.bg-red]="issue.ocurrences.length > 2" [class.bg-indigo]="issue.ocurrences.length == 2" class="label">{{issue.ocurrences.length}}</span></td>
+                </tr>   
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <div *ngIf="services.nav=='deploys'" class="card">
+      <div *ngIf="services.nav=='releases'" class="card">
         <div [class.show]="show" class="not-show body">
           <div class="row clearfix">
             <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
-              <h2>Pasajes <small>Aún no se registran pasajes</small></h2>
+              <h2>Pasajes <small *ngIf="releases.length==0">Aún no se registran pasajes</small></h2>
             </div>
-
           </div>
+          <div class="panel-group" id="accordion_1" role="tablist" aria-multiselectable="true">
+               <div *ngFor="let release of releases; let i=index" class="panel panel-col-indigo">
+                <div class="panel-heading" role="tab" id="headingOne_1">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion_1" href="#release{{i}}" aria-expanded="false" aria-controls="collapseOne_1"
+                      class="collapsed">
+                        {{release.date | date: 'dd/MM/yyyy'}} 
+                    </a>
+                  </h4>
+                </div>
+                <div id="release{{i}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne_1" aria-expanded="false"
+                  style="height: 0px;">
+                  <div class="panel-body">
+                    <div class="row clearfix">
+                      <div class="body table-responsive">
+                        <table class="table table-hover">
+                          <thead>
+                            <th style="width:10%;padding:10px">
+                              Fecha
+                            </th>
+                            <th style="width:10%;padding:10px">
+                              Responsable
+                            </th>
+                            <th style="padding:10px">
+                              Descripción
+                            </th>
+                          </thead>
+                          <tbody>
+                            <tr style="cursor:pointer" [routerLink]="['/issue', issue._id]" *ngFor="let issue of release.issues">
+                              <td [class.col-red]="getDelay(issue) > secondDelay" [class.col-orange]="getDelay(issue) > firstDelay && secondDelay >= getDelay(issue)" style="width:10%">
+                                {{getDate(issue) | date: 'dd/MM'}} <span mdTooltip="Retraso de una semana!" *ngIf="getDelay(issue) > secondDelay" style="font-size:13px" class="label bg-red">!</span>
+                              </td>
+                              <td style="width:10%"><md-icon style="vertical-align:bottom">person_outline</md-icon>{{issue.assignee}}</td>
+                              <td>{{issue.title}} <span mdTooltip="{{issue.ocurrences.length}} ocurrencias registradas" *ngIf="issue.ocurrences.length > 1" [class.bg-red]="issue.ocurrences.length > 2" [class.bg-indigo]="issue.ocurrences.length == 2" class="label">{{issue.ocurrences.length}}</span></td>
+                            </tr>   
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div class="row clearfix">
+                <div class="title col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                  <h2>Pasajes <small *ngIf="deploys.length==0">Aún no se registran deploys</small></h2>
+                </div>
+                </div>
+               <div class="row clearfix">
+                 
+                  <div class="body table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <th style="width:10%;padding:10px">
+                          Servicio
+                        </th>
+                        <th style="width:10%;padding:10px">
+                          EG
+                        </th>
+                        <th style="padding:10px">
+                          Deployed
+                        </th>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let deploy of deploys">
+                          <td>{{deploy.service}}</td>
+                          <td>{{deploy.eg}}</td>
+                          <td>{{deploy.deployedDate}}</td>
+                        </tr>   
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
         </div>
       </div>
     </div>

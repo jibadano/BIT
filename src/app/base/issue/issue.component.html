@@ -3,7 +3,7 @@
     <div class="btn-group btn-group-justified btn-actions" role="group">
       <a md-raised-button [class.selected]="services.nav=='issues'" routerLink="/" (click)="services.nav='issues'">INCIDENTES</a>
       <a md-raised-button [class.selected]="services.nav=='tasks'" routerLink="/" (click)="services.nav='tasks'">TAREAS</a>
-      <a md-raised-button [class.selected]="services.nav=='pass'" routerLink="/" (click)="services.nav='issues'">PASAJES</a>
+      <a md-raised-button [class.selected]="services.nav=='releases'" routerLink="/" (click)="services.nav='releases'">PASAJES</a>
     </div>
     <div class="card">
       <div [class.show]="show" class="not-show body">
@@ -242,21 +242,31 @@
                   </div>
                 </div>
                 <ul class="list-group search-results">
-                  <li (click)="select(result);" *ngFor="let result of viewSearchResults" class="search-item list-group-item"><i *ngIf="result.componentType=='wf'" class="material-icons">device_hub</i><i *ngIf="result.componentType=='lo'"
-                      class="material-icons">dashboard</i>{{result.nombre_concatenado}} <span class="badge bg-pink">{{result.version}}</span></li>
+                  <li (click)="select(result);" *ngFor="let result of viewSearchResults" class="search-item list-group-item">
+                    <span *ngIf="result.componentType=='wf'" style="float:left" class="badge bg-black">WF</span>
+                    <span *ngIf="result.componentType=='lo'" style="float:left" class="badge bg-dark-grey">LO</span>
+                    {{result.nombre_concatenado}} <span class="badge bg-pink">{{result.version}}</span></li>
                 </ul>
               </div>
               <div class="col-sm-1">
-                <input type="checkbox" [disabled]="issue._id != undefined" [(ngModel)]="issue.view.rules" id="rules">
+                <input type="checkbox"  [(ngModel)]="issue.view.rules" id="rules">
                 <label for="rules">Reglas</label>
               </div>
               <div class="col-sm-1">
-                <input type="checkbox" [disabled]="issue._id" [(ngModel)]="issue.view.styles" id="styles">
+                <input type="checkbox"  [(ngModel)]="issue.view.styles" id="styles">
                 <label for="styles">Estilos</label>
               </div>
               <div class="col-sm-1">
-                <input type="checkbox" [disabled]="issue._id" [(ngModel)]="issue.view.masks" id="masks">
+                <input type="checkbox"  [(ngModel)]="issue.view.masks" id="masks">
                 <label for="masks">Máscaras</label>
+              </div>
+              <div class="col-sm-5">
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text"class="form-control" [(ngModel)]="issue.demand" placeholder="Demanda">
+                  </div>
+                </div>
+               
               </div>
             </div>
 
@@ -266,7 +276,10 @@
                     <table class="table">
                       <tbody>
                         <tr *ngFor="let component of issue.view.components">
-                          <td class="component"><i class="material-icons">compare_arrows</i>{{component.nombre_concatenado}} <span class="badge bg-pink">{{component.version}}</span></td>
+                          <td class="component">
+                            <span *ngIf="component.componentType=='wf'" class="badge bg-black">WF</span>
+                            <span *ngIf="component.componentType=='lo'" class="badge bg-dark-grey">LO</span>
+                            {{component.nombre_concatenado}} <span class="badge bg-pink">{{component.version}}</span></td>
                         </tr>
                       </tbody>
                     </table>
@@ -277,7 +290,10 @@
                     <table class="table">
                       <tbody>
                         <tr *ngFor="let service of cmmServices">
-                          <td class="component"><i class="material-icons">compare_arrows</i>{{service.name}}</td>
+                          <td class="component">
+                            <span *ngIf="service.canonicals.length == 0" class="badge bg-dark-grey">CAN</span>
+                            <span *ngIf="service.canonicals.length != 0" class="badge bg-black">ORQ</span>
+                            {{service.name}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -288,7 +304,7 @@
                     <table class="table">
                       <tbody>
                         <tr *ngFor="let coreService of coreServices">
-                          <td class="component"><i class="material-icons">compare_arrows</i>{{coreService.name}} <span class="badge bg-pink">{{coreService.origin}}</span></td>
+                          <td class="component"><span class="badge bg-black">{{coreService.origin}}</span>{{coreService.name}} </td>
                         </tr>
                       </tbody>
                     </table>

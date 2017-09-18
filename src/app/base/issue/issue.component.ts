@@ -45,8 +45,15 @@ export class IssueComponent implements OnInit {
           this.issue.task = true;
         else
           this.services.exec("getIssue", { issue: { _id: id } }).then(co => {
-            if (co.data)
-              this.issue = co.data;
+            if (co.data){
+               this.issue = co.data;
+               let components = this.issue.view.components;
+               this.issue.view.components = [];
+               for(let component of components){
+                 this.select(component);
+               }
+
+            }
               this.animate();
           })
         }
@@ -67,6 +74,7 @@ export class IssueComponent implements OnInit {
   done(){
     if (this.issue._id) 
       this.services.exec("updIssue", { issue: this.issue }).then(co => {
+        this.issue.date = new Date();
         this.services.router.navigate(['/']);
       });
     else

@@ -57,7 +57,7 @@ var searchWorkflows = function(data, then){
 }
 
 exports.cmmSearch = function(data, then){
-	db.CMM.find({}).populate('core canonicals').exec((err,cmms)=>{
+	db.CMM.find({}).deepPopulate('core canonicals canonicals.core canonicals.canonicals canonicals.canonicals.core canonicals.canonicals.canonicals').exec((err,cmms)=>{
 		return then(null,cmms);
 	});
 }
@@ -73,7 +73,7 @@ exports.searchServices = function(data,then){
 
 	req.query(query, function (err, result) {
 		if(result){
-			db.CMM.find({name: { $in: getServiceList(result.recordset) }}).populate('core canonicals').exec((err,cmms)=>{
+			db.CMM.find({name: { $in: getServiceList(result.recordset) }}).deepPopulate('core canonicals canonicals.core canonicals.canonicals canonicals.canonicals.core canonicals.canonicals.canonicals').exec((err,cmms)=>{
 				return then(null,cmms);
 			});
 		}

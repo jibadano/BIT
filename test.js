@@ -1,25 +1,28 @@
-const fs = require('fs');
-const db = require('./server/database');
-fs.readFile('./orquestados.txt', 'utf8', function (err,data) {
-  if (err) {
-    return console.log(err);
-  }
-  var splitted = data.split("\r\n");
-  let lastService = splitted[0].split(/[ \t]/)[1];
-  let canonicos = [];
-  for(let c of splitted){
-	 let orquestado = c.split(/[ \t]/);
-	 
-	 if(lastService == orquestado[1]){
-		 canonicos.push(orquestado[0]);
-	 }
-	 else{
-		 let name = lastService;
-		 db.CMM.find({name:{$in:canonicos}},function(err,cmms){
-			 new db.CMM({name:name,canonicals:cmms}).save();
-		});
-		lastService = orquestado[1];
-		canonicos = [];
-	 }
-  }
+var ssh = require('ssh-exec')
+
+/*console.log(`
+--------
+BIP1290I: File 'commonSupportFlows/aggregateReply.esql' is deployed to execution group 'EG_DEBIN'.
+
+Deployed: '9/8/17 4:54 PM' in Bar file '/home/mqsiuser/EntregaCMM_TU_46_2_CALI/workbenchCommon_flow-1.9.3-wmb8_timeout_60000_cambio_invoque.bar'
+Last edited: '11/22/16 2:30 PM'
+Keywords:`.split("'"));
+*/
+
+let std;
+ssh('mqsilist BRK8PATAT01 -r -d2', {
+  user: 'mqsiuser',
+  host: '172.12.24.109',
+  password: 'cH4ngeMe!'
+}, function (err, stdout, stderr) {
+  var deploys = [];
+	stdout.split("--------").forEach(function(deployStr){
+		splittedDeploy = deployStr.split("'");
+		if(splittedDeploy.length==11){
+			let i=0;
+			splittedDeploy.forEach(function(value){
+				console.log(i++ + " " + value);
+			});
+		}
+	})
 });

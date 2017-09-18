@@ -21,7 +21,7 @@ exports.getIssues = function(data, then){
 }
 
 exports.getTasks = function(data, then){
-	Issue.find({task:true}).
+	Issue.find({task:true, release:null}).
 	sort({ date: -1 }).
 	exec(then);
 }
@@ -42,6 +42,9 @@ exports.updIssue = function(data, then){
 		issue.task = data.issue.task;
 		issue.environments = data.issue.environments;
 		issue.view = data.issue.view;
+		issue.demand = data.issue.demand;
+		issue.ticket = data.issue.ticket;
+
 		issue.save(then);
 	});
 }

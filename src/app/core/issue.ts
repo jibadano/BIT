@@ -1,5 +1,6 @@
 import { Environment }       from './environment';
 import { ViewComponent }       from './view-component';
+import { Release }       from './release';
 import { Service }       from './service';
 
 
@@ -9,12 +10,14 @@ export class Issue {
 	title: string;
 	assignee:string;
 	resolution: string;
+	release: Release;
 	date: Date;
 	ocurrences:Ocurrence[] = [];
 	ticket:string;
 	task:boolean;
 	environments: [string];
 	view:View = new View();
+	demand:string;
 }
 
 export class View {
