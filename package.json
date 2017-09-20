@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
+    "start": "node server/start",
     "server": "node server/start",
     "db": "mongod --dbpath ./db",
     "serve": "ng serve",

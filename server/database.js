@@ -11,7 +11,8 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var environments = {};
 var sql = require("mssql");
 
-mongoose.connect('mongodb://localhost/db',{ useMongoClient: true });
+//mongoose.connect('mongodb://localhost/db',{ useMongoClient: true });
+mongoose.connect('mongodb://jibadano:Opus9no2@ds137054.mlab.com:37054/bit-db',{ useMongoClient: true });
 var deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 /*	Schemas	*/
