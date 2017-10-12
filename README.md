@@ -1,9 +1,6 @@
 # BADANO'S INTEGRATION TOOL
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.0.
-
-
-Gestión de incidentes productivos ágil y completo. 
+Gestor de incidentes
 
 
 
